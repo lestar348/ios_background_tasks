@@ -17,9 +17,10 @@ Background IOS service
     BackgroundPlugin().saveIdentifires(bgProcessingTasksIdentifiers: bgProcessingTasksIdentifiers, bgRefreshTasksIdentifiers: bgRefreshTasksIdentifiers)
     ```
     Before GeneratedPluginRegistrant.register(with: self) line
-    You can add as much as you want tasks, BUT TWO IMPORTANT THINGS:
-        1. Identifiers witch you add in AppDelegate must match with identifiers in Info.plist
-        2. YOUR_TASK_NAME - mast match with task names, witch you create in your code 
+    
+You can add as much as you want tasks, BUT TWO IMPORTANT THINGS:
+ - Identifiers witch you add in AppDelegate must match with identifiers in Info.plist
+ - YOUR_TASK_NAME - mast match with task names, witch you create in your code 
 
 
 ## Debug
