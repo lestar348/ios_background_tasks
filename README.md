@@ -17,7 +17,7 @@ Background IOS service
     BackgroundPlugin().saveIdentifires(bgProcessingTasksIdentifiers: bgProcessingTasksIdentifiers, bgRefreshTasksIdentifiers: bgRefreshTasksIdentifiers)
     ```
     Before GeneratedPluginRegistrant.register(with: self) line
-    
+
 You can add as much as you want tasks, BUT TWO IMPORTANT THINGS:
  - Identifiers witch you add in AppDelegate must match with identifiers in Info.plist
  - YOUR_TASK_NAME - mast match with task names, witch you create in your code 
@@ -27,7 +27,9 @@ You can add as much as you want tasks, BUT TWO IMPORTANT THINGS:
 # Debug Refresh task
 1. You need add breakpoint after ```try BGTaskScheduler.shared.submit(request)``` line
 2. Then after your app has been paused execute the following comand in Xcode command line
-```e -l objc -- (void)[[BGTaskScheduler sharedScheduler _simulateLaunchForTaskWithIdentifier:@".YOUR_TASK_IDENTIFIER"]```
+```
+e -l objc -- (void)[[BGTaskScheduler sharedScheduler _simulateLaunchForTaskWithIdentifier:@".YOUR_TASK_IDENTIFIER"]
+```
 3. Resume back your app
 4. Well done, your task should be executed
 
