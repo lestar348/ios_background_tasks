@@ -19,9 +19,9 @@ public class BackgroundPlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin 
     public func saveIdentifires(bgProcessingTasksIdentifiers: [String], bgRefreshTasksIdentifiers: [String]){
         let defaults = UserDefaults.standard
         // Save all identifiers of refresh tasks
-        defaults.set(bgProcessingTasksIdentifiers, forKey: "bgProcessingTasksIdentifiers")
+        defaults.set(bgProcessingTasksIdentifiers, forKey: Constants.processingTasksKey)
         // Save all identifiers of refresh tasks
-        defaults.set(bgRefreshTasksIdentifiers, forKey: "bgRefreshTasksIdentifiers")
+        defaults.set(bgRefreshTasksIdentifiers, forKey: Constants.refreshTasksKey)
         
         BackgroundController().registerBGTasks()
     }
@@ -53,15 +53,20 @@ public class BackgroundPlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin 
         
         // Save raw Callback Handle IDs for refresh tasks
         for refreshTask in configuration.refreshTasks{
-            // May be raise exeption in original we need cast int to NSNumber and then use int64Value
             defaults.set(refreshTask.rawCallbackHandleID, forKey: refreshTask.identifier)
+            if(refreshTask.rawCancelID != nil){
+                defaults.set(refreshTask.rawCancelID, forKey: refreshTask.identifier + Constants.cancelSuffix)
+            }
             
         }
         
         // Save raw Callback Handle IDs for processing tasks
         for processingTask in configuration.processingTasks{
-            // May be raise exeption in original we need cast int to NSNumber and then use int64Value
             defaults.set(processingTask.rawCallbackHandleID, forKey: processingTask.identifier)
+            
+            if(processingTask.rawCancelID != nil){
+                defaults.set(processingTask.rawCancelID, forKey: processingTask.identifier + Constants.cancelSuffix)
+            }
         }
         
         return true

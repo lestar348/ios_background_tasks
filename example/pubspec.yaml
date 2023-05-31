@@ -16,7 +16,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   background:
     # When depending on this package from a real application you should use:
     #   background: ^x.y.z

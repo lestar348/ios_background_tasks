@@ -14,8 +14,8 @@ class BackgroundController{
     
     public func registerBGTasks(){
         let defaults = UserDefaults.standard
-        let refreshTasksIdentifiers = defaults.object(forKey: "bgRefreshTasksIdentifiers") as? [String] ?? []
-        let processingTasksIdentifiers = defaults.object(forKey: "bgProcessingTasksIdentifiers") as? [String] ?? []
+        let refreshTasksIdentifiers = defaults.object(forKey: Constants.refreshTasksKey) as? [String] ?? []
+        let processingTasksIdentifiers = defaults.object(forKey: Constants.processingTasksKey) as? [String] ?? []
         
         for task in refreshTasksIdentifiers + processingTasksIdentifiers{
             BGTaskScheduler.shared.register(
@@ -37,18 +37,7 @@ class BackgroundController{
         
         // Create an operation that performs the main part of the background task.
         let operation = BGTaskOperation(task: task)
-        
-        // Provide the background task with an expiration handler that cancels the operation.
-        task.expirationHandler = {
-            operation.cancel()
-        }
-        
-        // Inform the system that the background task is complete
-        // when the operation completes.
-        operation.completionBlock = {
-            task.setTaskCompleted(success: !operation.isCancelled)
-        }
-        
+                
         // Start the operation.
         operationQueue.addOperation(operation)
     }
@@ -72,8 +61,8 @@ class BackgroundController{
     /// Get from user defaults tasks identifiers and then schedule there one by one
     func scheduleAllBGTasks() {
         let defaults = UserDefaults.standard
-        let refreshTasksIdentifiers = defaults.object(forKey: "bgRefreshTasksIdentifiers") as? [String] ?? []
-        let processingTasksIdentifiers = defaults.object(forKey: "bgProcessingTasksIdentifiers") as? [String] ?? []
+        let refreshTasksIdentifiers = defaults.object(forKey: Constants.refreshTasksKey) as? [String] ?? []
+        let processingTasksIdentifiers = defaults.object(forKey: Constants.processingTasksKey) as? [String] ?? []
         
         for taskIdentifier in refreshTasksIdentifiers{
             scheduleRefreshTask(taskIdentifier)

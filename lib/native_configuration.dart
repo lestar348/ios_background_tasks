@@ -6,21 +6,6 @@ class NativeConfiguration {
     required this.processingTasks,
   });
 
-  factory NativeConfiguration.fromRawJson(String str) =>
-      NativeConfiguration.fromJson(json.decode(str) as Map<String, dynamic>);
-
-  factory NativeConfiguration.fromJson(Map<String, dynamic> json) =>
-      NativeConfiguration(
-        refreshTasks:
-            (json['refresh_tasks'] as List<Map<String, dynamic>>? ?? [])
-                .map(NativeTaskConfiguration.fromJson)
-                .toList(),
-        processingTasks:
-            (json['processing_tasks'] as List<Map<String, dynamic>>? ?? [])
-                .map(NativeTaskConfiguration.fromJson)
-                .toList(),
-      );
-
   final List<NativeTaskConfiguration> refreshTasks;
   final List<NativeTaskConfiguration> processingTasks;
 
@@ -37,25 +22,18 @@ class NativeTaskConfiguration {
   NativeTaskConfiguration({
     required this.identifier,
     required this.rawCallbackHandleId,
+    this.rawCancelID,
   });
-
-  factory NativeTaskConfiguration.fromRawJson(String str) =>
-      NativeTaskConfiguration.fromJson(
-          json.decode(str) as Map<String, dynamic>);
-
-  factory NativeTaskConfiguration.fromJson(Map<String, dynamic> json) =>
-      NativeTaskConfiguration(
-        identifier: json['identifier'] as String,
-        rawCallbackHandleId: json['raw_callback_handle_ID'] as int,
-      );
 
   final String identifier;
   final int rawCallbackHandleId;
+  final int? rawCancelID;
 
   String toRawJson() => json.encode(toJson());
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'identifier': identifier,
         'raw_callback_handle_ID': rawCallbackHandleId,
+        'raw_cancel_ID': rawCancelID,
       };
 }

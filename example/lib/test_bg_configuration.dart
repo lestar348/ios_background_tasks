@@ -4,16 +4,20 @@ import 'dart:ui';
 import 'package:background/background.dart';
 import 'package:background/background_configuration.dart';
 
-Future<void> testBGConfiguration() {
+Future<void> configurateBGTasks() {
   final config = BackgroundConfiguration(tasks: [
     BGTask(
-        taskName: 'testRefresh',
-        taskType: TaskType.refresh,
-        task: testRefreshFunc),
+      taskName: 'testRefresh',
+      taskType: TaskType.refresh,
+      //cancelTask: cancelProcessingTask,
+      task: testRefreshFunc,
+    ),
     BGTask(
-        taskName: 'testProcessing',
-        taskType: TaskType.processing,
-        task: testProcessingFunc)
+      taskName: 'testProcessing',
+      taskType: TaskType.processing,
+      //cancelTask: cancelProcessingTask,
+      task: testProcessingFunc,
+    )
   ]);
 
   return Background().configure(config).then((print));

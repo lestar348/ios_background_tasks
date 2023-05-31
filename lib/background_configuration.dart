@@ -51,14 +51,25 @@ class BackgroundConfiguration {
 }
 
 class BGTask {
-  BGTask({required this.taskName, required this.task, required this.taskType});
+  BGTask({
+    required this.taskName,
+    required this.task,
+    required this.taskType,
+    this.cancelTask,
+  });
 
   final String taskName;
   final FutureOr<bool> Function() task;
+  final FutureOr<bool> Function()? cancelTask;
   final TaskType taskType;
 
   NativeTaskConfiguration? toNativeTaskConfiguration() {
     final rawHandleID = PluginUtilities.getCallbackHandle(task)?.toRawHandle();
+    int? rawCancelID;
+    if (cancelTask != null) {
+      rawCancelID =
+          PluginUtilities.getCallbackHandle(cancelTask!)?.toRawHandle();
+    }
     if (rawHandleID == null) {
       debugPrint(
         "[Background IOS Plugin] Can't get rawHandleID for task: $taskName",
@@ -70,6 +81,7 @@ class BGTask {
           ? '$_refreshTaskIdentifier.$taskName'
           : '$_processingTaskIdentifier.$taskName',
       rawCallbackHandleId: rawHandleID,
+      rawCancelID: rawCancelID,
     );
   }
 }

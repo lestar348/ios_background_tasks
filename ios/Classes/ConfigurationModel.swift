@@ -31,15 +31,18 @@ class Configuration: Codable {
 class Task: Codable {
     let identifier: String
     let rawCallbackHandleID: Int
+    let rawCancelID: Int?
 
     enum CodingKeys: String, CodingKey {
         case identifier
         case rawCallbackHandleID = "raw_callback_handle_ID"
+        case rawCancelID = "raw_cancel_ID"
     }
 
-    init(identifier: String, rawCallbackHandleID: Int) {
+    init(identifier: String, rawCallbackHandleID: Int, rawCancelID: Int?) {
         self.identifier = identifier
         self.rawCallbackHandleID = rawCallbackHandleID
+        self.rawCancelID = rawCancelID
     }
 }
 

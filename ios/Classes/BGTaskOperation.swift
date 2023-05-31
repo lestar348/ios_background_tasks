@@ -9,6 +9,9 @@ import Foundation
 import BackgroundTasks
 
 @available(iOS 13.0, *)
+
+/// Wrapper on FlutterBackgroundAppWorker
+/// Controls by OperationQueue
 class BGTaskOperation : Operation {
     let task: BGTask
     private var worker: FlutterBackgroundAppWorker?
@@ -17,12 +20,14 @@ class BGTaskOperation : Operation {
         self.task = task
     }
     
-    override func cancel(){}
+    override func cancel(){
+        worker?.cancel()
+    }
     
     override func main() {
         let semaphore = DispatchSemaphore(value: 0)
         
-        print("I'm the \(task.identifier) task")
+        print("Start executing \(task.identifier) task")
         
         DispatchQueue.main.async {
             self.worker = FlutterBackgroundAppWorker(task: self.task)
@@ -31,6 +36,7 @@ class BGTaskOperation : Operation {
                 semaphore.signal()
             }
             
+            // Provide the background task with an expiration handler that cancels the operation.
             self.task.expirationHandler = {
                 self.worker?.cancel()
             }
@@ -40,6 +46,4 @@ class BGTaskOperation : Operation {
         
         semaphore.wait()
     }
-    
-    
 }

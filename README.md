@@ -1,13 +1,13 @@
-# background
-
-Background IOS service
+# Background IOS service
 
 ## Getting Started
 
 1. First of all you need add "Backgoround fetch", "Background processing" capabilities in your project (Runner->Singin & Capabilities->Background Modes)
+
 2. Then in main Info.plist Permitted background task scheduler identifiers add items with identifiers:
     - For refresh tasks - com.vergo.iosBackground.refresh.YOUR_TASK_NAME
     - For processing tasks - com.vergo.iosBackground.ProcessingTask.YOUR_TASK_NAME
+
 3. Add the following code to your project Runner->AppDelegate.swift :
     ```import background```  - after import Flutter
     ```
@@ -24,11 +24,10 @@ You can add as much as you want tasks, BUT TWO IMPORTANT THINGS:
 
 
 ## Debug
-# Debug Refresh task
 1. You need add breakpoint after ```try BGTaskScheduler.shared.submit(request)``` line
 2. Then after your app has been paused execute the following comand in Xcode command line
 ```
-e -l objc -- (void)[[BGTaskScheduler sharedScheduler _simulateLaunchForTaskWithIdentifier:@".YOUR_TASK_IDENTIFIER"]
+e -l objc -- (void)[[BGTaskScheduler sharedScheduler _simulateLaunchForTaskWithIdentifier:@"YOUR_TASK_IDENTIFIER"]
 ```
 3. Resume back your app
 4. Well done, your task should be executed
